@@ -7,10 +7,6 @@ use Illuminate\Database\Migrations\Migration;
 //////////////////////////////////////////////////////////////////
 //  Name:   CreateContactsTable - migration (class)
 //
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   30/10/2019
-//
 //  Description:
 //    Columns(Name : description)
 //      id_CON(PK) : id for table Contacts, 
@@ -36,7 +32,7 @@ class CreateContactsTable extends Migration
             // $table->timestamps();
     
             $table->string('name',100);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
 
         });
     }

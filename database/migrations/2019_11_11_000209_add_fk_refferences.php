@@ -27,7 +27,7 @@ class AddFkRefferences extends Migration
     {
         Schema::table('refferences', function (Blueprint $table) {
             $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

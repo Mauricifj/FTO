@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   CityRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class CityRequest extends FormRequest
 {
     /**
@@ -35,10 +24,17 @@ class CityRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu' => 'required',
-            'id_ref' => 'required',
-            'nome'   => 'required|max:100',
-            'extras' => 'required|max:200',
+            'id_refference' => 'required',
+            'name' => 'required|max:100',
+            'extra' => 'max:200',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];
     }
 }  

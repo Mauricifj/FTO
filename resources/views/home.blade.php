@@ -95,7 +95,7 @@
                 <div class="links">
                     <a href="/city">Cidades</a>
                     <a href="/refference">Referências</a>
-                    <a href="/costumer">Clientes</a>
+                    <a href="/customer">Clientes</a>
                     <a href="/contact">Contatos</a>
                     <a href="/district">Bairros</a>
                 </div>

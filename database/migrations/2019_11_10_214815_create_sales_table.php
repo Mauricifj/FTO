@@ -57,7 +57,7 @@ class CreateSalesTable extends Migration
             $table->float('total',2);
          
             $table->string('situation',20);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

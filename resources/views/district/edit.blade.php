@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Editar Cidade')
+@section('title','Editar bairro')
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -10,27 +10,27 @@
             </ul>
         </div>
     @endif
-    <form method="post" action="/city/{{$city->id}}">
+    <form method="post" action="/district/{{$district->id}}">
         @csrf
         @method("put")
         <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" class="form-control" name="name" id="name" value="{{ $city->name }}">
+            <input type="text" class="form-control" name="name" id="name" value="{{ $district->name }}">
         </div>
         <div class="form-group">
             <label for="extra">Extra</label>
-            <input type="text" class="form-control" name="extra" id="extra" value="{{ $city->extra }}">
+            <input type="text" class="form-control" name="extra" id="extra" value="{{ $district->extra }}">
         </div>
         <div class="form-group">
-            <label for="id_refference">Referência</label>
-            <select name="id_refference" class="form-control" id="id_refference">
+            <label for="id_city">Cidade</label>
+            <select name="id_city" class="form-control" id="id_city">
                 <option value="">Selecione...</option>
-                @foreach($refferences as $refference)
-                    <option value="{{$refference->id}}" {{ ($city->id_refference == $refference->id) ? 'selected' : '' }}>{{$refference->description}}</option>
+                @foreach($cities as $city)
+                    <option value="{{$city->id}}" {{ ($district->id_city == $city->id) ? 'selected' : '' }}>{{$city->name}}</option>
                 @endforeach
             </select>
         </div>
-        <a href="/city" class="btn btn-outline-info mt-2 mr-2">
+        <a href="/district" class="btn btn-outline-info mt-2 mr-2">
             <i class="fas fa-long-arrow-alt-left"></i> Voltar
         </a>
         <button class="btn btn-outline-primary mt-2">

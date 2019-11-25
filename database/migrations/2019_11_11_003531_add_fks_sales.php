@@ -29,13 +29,13 @@ class AddFksSales extends Migration
     {
         Schema::table('sales', function (Blueprint $table) {
             $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('id_refference')->unsigned();
-            $table->foreign('id_refference')->references('id')->on('refferences');
+            $table->foreign('id_refference')->references('id')->on('refferences')->onDelete('cascade');
 
             $table->integer('id_customer')->unsigned();
-            $table->foreign('id_customer')->references('id')->on('customers');
+            $table->foreign('id_customer')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
@@ -47,14 +47,14 @@ class AddFksSales extends Migration
     public function down()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->dropForeign('id_USU');
-            $table->dropColumn('id_USU');  
+            $table->dropForeign('id_user');
+            $table->dropColumn('id_user');
           
-            $table->dropForeign('id_REF');
-            $table->dropColumn('id_REF');
+            $table->dropForeign('id_refference');
+            $table->dropColumn('id_refference');
 
-            $table->dropForeign('id_CST');
-            $table->dropColumn('id_CST');  
+            $table->dropForeign('id_customer');
+            $table->dropColumn('id_customer');
         });
     }
 }

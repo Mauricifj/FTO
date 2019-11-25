@@ -24,7 +24,7 @@ class ContactRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,12 +35,8 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu'     => 'required',
-            'id_ref'     => 'required',
-            'id_cst'     => 'required',
-            'id_SUP'     => 'required',
-            'desc_con'   => 'required|max:100',
-            'extras_con' => 'required|max:200',
+            'id_user'     => 'required',
+            'id_refference'     => 'required',
         ];
     }
 }

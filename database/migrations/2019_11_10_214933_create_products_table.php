@@ -47,7 +47,7 @@ class CreateProductsTable extends Migration
             $table->float('amount',2);
             $table->integer('stock_minimum');
             $table->integer('quantity');
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

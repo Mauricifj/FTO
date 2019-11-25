@@ -36,7 +36,7 @@ class CreateReportsTable extends Migration
 
             $table->string('description',100);
             $table->date('date');
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

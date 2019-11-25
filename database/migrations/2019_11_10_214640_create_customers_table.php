@@ -7,10 +7,6 @@ use Illuminate\Database\Migrations\Migration;
 //////////////////////////////////////////////////////////////////
 //  Name:   CreateCustomersTable - migration (class)
 //
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   27/10/2019
-//
 //  Description:
 //    Columns(Name  : description)
 //      id_CST(PK)  : id for table Customer, 
@@ -49,9 +45,9 @@ class CreateCustomersTable extends Migration
               
             $table->string('address',100);
             $table->string('number',6);
-            $table->string('complment',20);
+            $table->string('complement',20)->nullable();
             $table->string('zipcode',8);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

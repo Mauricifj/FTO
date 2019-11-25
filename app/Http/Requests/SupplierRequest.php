@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   SupplierRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class SupplierRequest extends FormRequest
 {
     /**
@@ -24,7 +13,7 @@ class SupplierRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,12 +24,9 @@ class SupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu'     => 'required',
-            'id_ref'     => 'required',
-            'id_cst'     => 'required',
-            'id_SUP'     => 'required',
-            'desc_con'   => 'required|max:100',
-            'extras_con' => 'required|max:200',
+            'id_refference'     => 'required',
+            'id_customer'     => 'required',
+            'id_supplier'     => 'required',
         ];
     }
 }

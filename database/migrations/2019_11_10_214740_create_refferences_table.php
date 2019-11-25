@@ -34,7 +34,7 @@ class CreateRefferencesTable extends Migration
             $table->enum('type', ['estado', 'forma_pagamento', 'forma_contato','forma_relatorio']);
             $table->string('description',100);
             $table->string('acronym',5);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
             // $table->timestamps();
         });
     }

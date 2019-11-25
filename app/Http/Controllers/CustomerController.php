@@ -2,38 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use App\Customer;
+use App\District;
+use App\Http\Requests\CustomerRequest;
+use App\Refference;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   CustomerController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered customers and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = customer::all();
-        return view('customer.index')->with('customers',$customers); 
+        $customers = Customer::all();
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('customer.index', compact('customers', 'user', 'message', 'error'));
     }
 
     /**
@@ -43,30 +36,29 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view ('customer.create');
+        $refferences = Refference::all()->where('type', 'estado');
+        $cities = City::all();
+        $districts = District::all();
+        return view ('customer.create', compact('refferences', 'cities', 'districts'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CustomerRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        Aluno::create($request->all());
-        return redirect('customer');
-    }
+        $request['id_user'] = $request->user()->id;
+        $customer = Customer::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
-    {
-        //
+        if ($customer != null) {
+            $request->session()->flash('message', "{$customer->name} adicionado(a) com sucesso.");
+        } else
+            $request->session()->flash('error', "Não foi possível adicionar {$customer->name}.");
+
+        return redirect('customer');
     }
 
     /**
@@ -77,30 +69,41 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('customer.edit')->with('customer',$customer);
+        $refferences = Refference::all()->where('type', 'estado');
+        return view ('customer.edit', compact('customer', 'refferences'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Customer  $customer
+     * @param CustomerRequest $request
+     * @param  \App\Customer $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-        $customer->update($request->all());
-        return redirect('customer'); 
+        if ($customer->update($request->all()))
+            $request->session()->flash('message', "{$customer->name} alterado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível alterar {$customer->name}.");
+
+        return redirect('customer');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Customer  $customer
+     * @param Request $request
+     * @param Customer $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request, Customer $customer)
     {
-        //
+        if (Customer::destroy($customer->id))
+            $request->session()->flash('message', "{$customer->name} excluído(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível excluir {$customer->name}.");
+
+        return redirect('customer');
     }
 }

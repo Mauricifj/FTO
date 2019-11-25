@@ -37,7 +37,7 @@ class CreateCitiesTable extends Migration
             $table->increments('id');
            // $table->timestamps();
             $table->string('name',100);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

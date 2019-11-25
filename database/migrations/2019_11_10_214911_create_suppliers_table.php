@@ -46,9 +46,9 @@ class CreateSuppliersTable extends Migration
             $table->string('cnpj',14)->unique();
             $table->string('address',100);
             $table->string('number',6);
-            $table->string('complement',20);
+            $table->string('complement',20)->nullable();
             $table->string('zipcode',8);
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

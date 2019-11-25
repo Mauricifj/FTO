@@ -29,13 +29,13 @@ class AddFksReceipts extends Migration
     {
         Schema::table('receipts', function (Blueprint $table) {
             $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('id_refference')->unsigned();
-            $table->foreign('id_refference')->references('id')->on('refferences');
+            $table->foreign('id_refference')->references('id')->on('refferences')->onDelete('cascade');
 
             $table->integer('id_supplier')->unsigned();
-            $table->foreign('id_supplier')->references('id')->on('suppliers');
+            $table->foreign('id_supplier')->references('id')->on('suppliers')->onDelete('cascade');
         });
     }
 
@@ -47,14 +47,14 @@ class AddFksReceipts extends Migration
     public function down()
     {
         Schema::table('receipts', function (Blueprint $table) {
-            $table->dropForeign('id_USU');
-            $table->dropColumn('id_USU');  
+            $table->dropForeign('id_user');
+            $table->dropColumn('id_user');
           
-            $table->dropForeign('id_REF');
-            $table->dropColumn('id_REF');
+            $table->dropForeign('id_refference');
+            $table->dropColumn('id_refference');
 
-            $table->dropForeign('id_SUP');
-            $table->dropColumn('id_SUP');  
+            $table->dropForeign('id_supplier');
+            $table->dropColumn('id_supplier');
         });
     }
 }

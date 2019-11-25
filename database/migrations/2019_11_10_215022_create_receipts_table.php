@@ -49,15 +49,15 @@ class CreateReceiptsTable extends Migration
 
             $table->date('date');
             $table->time('hour');
-            $table->date('end_date');
-            $table->time('end_hour');
+            $table->date('end_date')->nullable();
+            $table->time('end_hour')->nullable();
 
             $table->float('amount',2);
             $table->float('discount',2);
             $table->float('total',2);
          
             $table->string('situa_REC',6); 
-            $table->string('extra',200);
+            $table->string('extra',200)->nullable();
         });
     }
 

@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   DistrictRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class DistrictRequest extends FormRequest
 {
     /**
@@ -24,7 +13,7 @@ class DistrictRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,10 +24,16 @@ class DistrictRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu' => 'required',
-            'id_ref' => 'required',
-            'nome'   => 'required|max:100',
-            'extras' => 'required|max:200',
+            'id_city' => 'required',
+            'name' => 'required|max:100',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];
     }
 }

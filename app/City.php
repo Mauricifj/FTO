@@ -4,60 +4,34 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   City - model (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   27/10/2019
-//
-//  Description:
-//    Columns(Name : description)
-// 	    id_CIT(PK) : id for table City, 
-//      id_USU(FK) : user id who signed up,
-//      name_CIT   : city name, 
-//      extra_CIT  : extra information,
-//      id_REF(FK) : set State(UF) for City	 
-//
-//////////////////////////////////////////////////////////////////
 class City extends Model
 {
- /* PROTECTED ----------------------------------------------------*/
+    protected $fillable = ['name', 'extra', 'id_user', 'id_refference'];
 
-	// Attributes
-	protected $fillable=['name', 'extra','id_user','id_refference'];
+    protected $hidden = ['id_user', 'id_refference'];
 
-    // Hidden attributes but will have a user friendly name on the form
-    protected $hidden = ['id_user','id_refference'];
+    public $timestamps = false;
 
- /* PUBLIC --------------------------------------------------------*/    
-
-    public $timestamps=false;    
-
-    /* hasMany functions -------------------------- */  
-
-	public function getAllCityDistricts()
-	{
-  		return $this->hasMany('App\District','id_city');
-    }   
-
-	public function getAllCityCustomers()
-	{
-  		return $this->hasMany('App\Customer','id_city');
-    }   
-
-	public function getAllCitySuppliers()
-	{
-  		return $this->hasMany('App\Supplier','id_city');
-    } 
-
-    /* belongsTo functions --------------------------*/   
-
-    public function getCityRefference()
+    public function districts()
     {
-        return $this->belongsTo('App\Refference','id_refference','id_refference');
-    }    
-  
+        return $this->hasMany('App\District', 'id_city');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany('App\Customer', 'id_city');
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany('App\Supplier', 'id_city');
+    }
+
+    public function refference()
+    {
+        return $this->belongsTo('App\Refference', 'id_refference');
+    }
+
 }
 
 /*
@@ -75,4 +49,3 @@ class City extends Model
  Exemplo de uso: suponha variável $C referenciando objeto "Cidade", para se obter a UF da cidade usaríamos a instrução: "$R = $C->refferencia()->first();". 
  Aqui, "first" é usado para extrair da coleção retornada pela função "curso" (abaixo) o primeiro e único objeto "Refferencia".
 */
-

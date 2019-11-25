@@ -24,7 +24,7 @@ class ReportRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,10 +35,8 @@ class ReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu' => 'required',
-            'id_ref' => 'required',
-            'nome'   => 'required|max:100',
-            'extras' => 'required|max:200',
+            'id_user' => 'required',
+            'id_refference' => 'required',
         ];
     }
 }

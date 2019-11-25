@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   CustomerRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class CustomerRequest extends FormRequest
 {
     /**
@@ -24,7 +13,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,20 +24,27 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_usu' => 'required',
-            
-            'name_cst'    => 'required|max:100',
-            'sex_cst'     => 'required|max:1',
-            'birth_CST'   => 'required|',
-            'cpf_CST'     => 'required|max:15',
-            'address_CST' => 'required|max:100',
-            'num_CST'     => 'required|max:6',
-            'comp_CST'    => 'required|max:15',
-            'cep_CST'     => 'required|max:8',
-            'id_ref'      => 'required',
-            'id_cit'      => 'required',
-            'id_dis'      => 'required',
-            'extras'      => 'required|max:200',
+            'id_user' => 'required',
+            'name' => 'required|max:100',
+            'gender' => 'required|max:1',
+            'birthdate' => 'required',
+            'cpf' => 'required|max:15',
+            'address' => 'required|max:100',
+            'number' => 'required|max:6',
+            'complement' => 'required|max:15',
+            'zipcode' => 'required|max:8',
+            'id_refference' => 'required',
+            'id_city' => 'required',
+            'id_district' => 'required',
+            'extra' => 'required|max:200',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];
     }
 }

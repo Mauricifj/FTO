@@ -3,26 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Refference;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   RefferenceController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered refferences and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class RefferenceController extends Controller
 {
     /**
@@ -33,7 +16,8 @@ class RefferenceController extends Controller
     public function index()
     {
         $refferences = refference::all();
-        return view('refference.index')->with('refferences',$refferences);
+        $user = User::find(auth()->user()->getAuthIdentifier());
+        return view('refference.index', compact('refferences', 'user'));
     }
 
     /**
@@ -56,7 +40,7 @@ class RefferenceController extends Controller
     public function store(Request $request)
     {
         $refference = new Refference($request->all());
-        $refference->id_user = auth()->user()->id;
+        $refference->id_user = $request->user()->id;
         $refference->save();
 
         return redirect('refference');
@@ -81,14 +65,15 @@ class RefferenceController extends Controller
      */
     public function edit(Refference $refference)
     {
-        return view('refference.edit')->with('refference',$refference);
+        $types = ['estado' => 'Estado', 'forma_pagamento' => 'Forma de pagamento', 'forma_contato' => 'Forma de contato', 'forma_relatorio' => 'Forma de relatório'];
+        return view('refference.edit', compact('refference', 'types'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Refference  $refference
+     * @param  \Illuminate\Http\Request $request
+     * @param Refference $refference
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Refference $refference)
@@ -100,11 +85,12 @@ class RefferenceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Refference  $refference
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Refference $refference)
+    public function destroy(int $id)
     {
-        //
+        Refference::destroy($id);
+        return redirect('refference');
     }
 }

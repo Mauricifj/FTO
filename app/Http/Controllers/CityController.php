@@ -3,39 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\District;
+use App\Http\Requests\CityRequest;
 use App\Refference;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   CityController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered cities and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Get all registered cities and pass them to view
         $cities = City::all();
-        return view('city.index')->with('cities',$cities);        
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('city.index', compact('cities', 'user', 'message', 'error'));
     }
 
     /**
@@ -52,29 +42,25 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CityRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CityRequest $request)
     {
-        // Create new city with the data received from the form
-        $city = new City($request->all());
-        $city->id_user = auth()->user()->id;
-        $city->save();
+        $request['id_user'] = $request->user()->id;
+        $city = City::create($request->all());
 
-        // back to index
+        if ($city != null) {
+            $district = new District();
+            $district->name = 'Centro';
+            $district->id_city = $city->id;
+            $district->id_user = $request->user()->id;
+            $district->save();
+            $request->session()->flash('message', "{$city->name} adicionada com sucesso.");
+        } else
+            $request->session()->flash('error', "Não foi possível adicionar {$city->name}.");
+
         return redirect('city');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\City  $city
-     * @return \Illuminate\Http\Response
-     */
-    public function show(City $city)
-    {
-        //
     }
 
     /**
@@ -85,30 +71,41 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        return view('city.edit')->with('city',$city);
+        $refferences = Refference::all()->where('type', 'estado');
+        return view ('city.edit', compact('city', 'refferences'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\City  $city
+     * @param CityRequest $request
+     * @param  \App\City $city
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(CityRequest $request, City $city)
     {
-        $city->update($request->all());
+        if ($city->update($request->all()))
+            $request->session()->flash('message', "{$city->name} alterada com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível alterar {$city->name}.");
+
         return redirect('city'); 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\City  $city
+     * @param Request $request
+     * @param City $city
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy(Request $request, City $city)
     {
-        //
+        if (City::destroy($city->id))
+            $request->session()->flash('message', "{$city->name} excluída com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível excluir {$city->name}.");
+
+        return redirect('city');
     }
 }

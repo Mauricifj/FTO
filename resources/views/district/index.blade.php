@@ -1,5 +1,5 @@
-@extends('layouts/app')
-@section('title','Referências')
+@extends('layouts.app')
+@section('title','Bairros')
 @section('content')
     @if(!empty($message))
         <div class="alert alert-success">{{$message}}</div>
@@ -13,22 +13,22 @@
         <a href="/" class="btn btn-outline-info mb-2">
             <i class="fas fa-long-arrow-alt-left"></i> Voltar
         </a>
-        <a href="refference/create" class="btn btn-outline-primary mb-2">
+        <a href="district/create" class="btn btn-outline-primary mb-2">
             Adicionar <i class="fas fa-plus"></i>
         </a>
     </div>
     <ul class="list-group">
-        @if (sizeof($refferences) != 0)
-            @foreach($refferences as $refference)
+        @if(sizeof($districts) != 0)
+            @foreach($districts as $district)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{ $refference->description }} ({{$refference->type}})</span>
+                    <span>{{ $district->name }} - {{ $district->city->name }}</span>
                     @if ($user->isAdmin() || $user->isManager())
                         <span class="d-flex">
-                    <a href="/refference/{{ $refference->id }}/edit" class="btn btn-outline-warning btn-sm mr-1">
+                    <a href="/district/{{ $district->id }}/edit" class="btn btn-outline-warning btn-sm mr-1">
                         Editar <i class="fas fa-edit"></i>
                     </a>
-                    <form method="post" action="/refference/{{ $refference->id }}"
-                          onsubmit="return confirm('Tem certeza que deseja excluir {{ addslashes($refference->description) }}?')">
+                    <form method="post" action="/district/{{ $district->id }}"
+                          onsubmit="return confirm('Tem certeza que deseja excluir {{ addslashes($district->name) }}?')">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-outline-danger btn-sm">
@@ -41,7 +41,7 @@
             @endforeach
         @else
             <li class="list-group-item text-center">
-                <span>Nenhuma referência cadastrada</span>
+                <span>Nenhum bairro cadastrado</span>
             </li>
         @endif
     </ul>

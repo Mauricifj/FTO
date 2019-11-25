@@ -4,44 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   District - model (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   27/10/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      id_DIS(PK) : id for table District, 
-//      id_USU(FK) : user id who signed up,
-//      id_CIT(FK) : set citie for District, 
-//      name_DIS   : district name, 
-//      extra_DIS  : extra information
-//
-//  Extra specifications:
-//    When you enter a new city, the system will automatically 
-//    register adowntown district named "Centro" for it.
-//
-////////////////////////////////////////////////////////////////////
 class District extends Model
 {
- /* PROTECTED ----------------------------------------------------*/
+    protected $fillable = ['name', 'extra', 'id_user', 'id_city'];
 
-    // Attributes
-    protected $fillable=['name_DIS', 'extra_DIS','id_USU','id_CIT'];
+    protected $hidden = ['id_user', 'id_city'];
 
-    // Hidden attributes but will have a user friendly name on the form
-    protected $hidden = ['id_USU','id_CIT'];
+    public $timestamps = false;
 
- /* PUBLIC --------------------------------------------------------*/   
-
-    public $timestamps=false; 
-
-    /* belongsTo functions --------------------------*/   
-
-    public function getDistrictCity()
+    public function city()
     {
-        return $this->belongsTo('App\City', 'id_CIT', 'id_CIT');
+        return $this->belongsTo('App\City', 'id_city');
     }
 }

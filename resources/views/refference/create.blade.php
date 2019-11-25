@@ -1,5 +1,5 @@
 @extends('layouts/app')
-@section('title','Nova Cidade')
+@section('title','Nova referência')
 @section('content')
     <form method="post" action="/refference">
         @csrf
