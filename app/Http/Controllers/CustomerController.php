@@ -51,6 +51,7 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $request['id_user'] = $request->user()->id;
+//        dd($request->all());
         $customer = Customer::create($request->all());
 
         if ($customer != null) {
@@ -70,7 +71,9 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         $refferences = Refference::all()->where('type', 'estado');
-        return view ('customer.edit', compact('customer', 'refferences'));
+        $cities = City::all();
+        $districts = District::all();
+        return view ('customer.edit', compact('customer', 'refferences', 'cities', 'districts'));
     }
 
     /**

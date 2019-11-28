@@ -20,8 +20,8 @@
             <label for="gender">Sexo</label>
             <select name="gender" class="form-control" id="gender">
                 <option value="">Selecione...</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Feminino">Feminino</option>
+                <option value="m">Masculino</option>
+                <option value="f">Feminino</option>
             </select>
         </div>
         <div class="form-group">
@@ -140,8 +140,3 @@
 
 
 @endsection
-<?
-//2     name
-//8	    complment
-//9	    zipcode
-//10	extra

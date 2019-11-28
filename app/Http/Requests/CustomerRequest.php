@@ -24,19 +24,18 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_user' => 'required',
             'name' => 'required|max:100',
             'gender' => 'required|max:1',
             'birthdate' => 'required',
             'cpf' => 'required|max:15',
             'address' => 'required|max:100',
             'number' => 'required|max:6',
-            'complement' => 'required|max:15',
+            'complement' => 'max:15',
             'zipcode' => 'required|max:8',
             'id_refference' => 'required',
             'id_city' => 'required',
             'id_district' => 'required',
-            'extra' => 'required|max:200',
+            'extra' => 'max:200',
         ];
     }
 

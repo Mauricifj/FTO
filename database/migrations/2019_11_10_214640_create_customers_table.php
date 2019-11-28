@@ -39,7 +39,7 @@ class CreateCustomersTable extends Migration
            // $table->timestamps();
 
             $table->string('name',100);
-            $table->string('gender',1);
+            $table->enum('gender', ['m', 'f']);
             $table->date('birthdate');
             $table->string('cpf',15)->unique();
               
