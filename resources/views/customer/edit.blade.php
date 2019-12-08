@@ -26,7 +26,8 @@
         </div>
         <div class="form-group">
             <label for="birthdate">Data de nascimento</label>
-            <input type="date" class="form-control" name="birthdate" id="birthdate" min="1900-01-01" max="<?= date('Y-m-d');?>" value="{{ $customer->birthdate }}">
+            <input type="date" class="form-control" name="birthdate" id="birthdate" min="1900-01-01"
+                   max="<?= date('Y-m-d');?>" value="{{ $customer->birthdate }}">
         </div>
         <div class="form-group">
             <label for="cpf">CPF</label>
@@ -36,8 +37,10 @@
             <label for="id_refference">Estado</label>
             <select name="id_refference" class="form-control" id="id_refference" onchange="refference_changed()">
                 <option value="">Selecione...</option>
-                @foreach($refferences as $refference)
-                    <option value="{{$refference->id}}" {{ ($refference->id == $customer->refference->id) ? 'selected' : '' }}>{{$refference->description}}</option>
+                @foreach($states as $state)
+                    <option value="{{$state->id}}" {{ ($state->id == $customer->refference->id) ? 'selected' : '' }}>
+                        {{$state->description}}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -48,7 +51,9 @@
                 @foreach($cities as $city)
                     <option value="{{$city->id}}"
                             id="{{$city->id . "_" . $city->refference->id}}"
-                            {{ ($city->id == $customer->city->id) ? 'selected' : '' }}>{{$city->name}}</option>
+                            {{ ($city->id == $customer->city->id) ? 'selected' : '' }}>
+                        {{$city->name}}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -59,7 +64,9 @@
                 @foreach($districts as $district)
                     <option value="{{$district->id}}"
                             id="{{$district->id . "_" . $district->city->id}}"
-                            {{ ($district->id == $customer->district->id) ? 'selected' : '' }}>{{$district->name}}</option>
+                            {{ ($district->id == $customer->district->id) ? 'selected' : '' }}>
+                        {{$district->name}}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -73,7 +80,8 @@
         </div>
         <div class="form-group">
             <label for="complement">Complemento</label>
-            <input type="text" class="form-control" name="complement" id="complement" value="{{ $customer->complement }}">
+            <input type="text" class="form-control" name="complement" id="complement"
+                   value="{{ $customer->complement }}">
         </div>
         <div class="form-group">
             <label for="zipcode">CEP</label>
@@ -96,10 +104,6 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function () {
-
-        });
-
         function refference_changed() {
             var id_refference = $('#id_refference').val();
 
@@ -136,6 +140,4 @@
             }
         }
     </script>
-
-
 @endsection

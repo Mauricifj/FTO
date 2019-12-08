@@ -34,10 +34,10 @@
         </div>
         <div class="form-group">
             <label for="id_refference">Estado</label>
-            <select name="id_refference" class="form-control" id="id_refference" onchange="refference_changed()">
+            <select name="id_refference" class="form-control" id="id_refference" onchange="state_changed()">
                 <option value="">Selecione...</option>
-                @foreach($refferences as $refference)
-                    <option value="{{$refference->id}}">{{$refference->description}}</option>
+                @foreach($states as $state)
+                    <option value="{{$state->id}}">{{$state->description}}</option>
                 @endforeach
             </select>
         </div>
@@ -46,8 +46,7 @@
             <select name="id_city" class="form-control" id="id_city" onchange="city_changed()">
                 <option value="">Selecione...</option>
                 @foreach($cities as $city)
-                    <option value="{{$city->id}}"
-                            id="{{$city->id . "_" . $city->refference->id}}">{{$city->name}}</option>
+                    <option value="{{$city->id}}" id="{{$city->id . "_" . $city->refference->id}}">{{$city->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -56,13 +55,12 @@
             <select name="id_district" class="form-control" id="id_district">
                 <option value="">Selecione...</option>
                 @foreach($districts as $district)
-                    <option value="{{$district->id}}"
-                            id="{{$district->id . "_" . $district->city->id}}">{{$district->name}}</option>
+                    <option value="{{$district->id}}" id="{{$district->id . "_" . $district->city->id}}">{{$district->name}}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
-            <label for="address">Rua</label>
+            <label for="address">Endereço</label>
             <input type="text" class="form-control" name="address" id="address">
         </div>
         <div class="form-group">
@@ -88,8 +86,6 @@
             Adicionar <i class="fas fa-plus"></i>
         </button>
     </form>
-
-
 @endsection
 
 @section('scripts')
@@ -97,21 +93,21 @@
         $(document).ready(function () {
             $('#div_city').hide();
             $('#div_district').hide();
-
-
         });
 
-        function refference_changed() {
-            var id_refference = $('#id_refference').val();
+        function state_changed() {
+            var id_state = $('#id_refference').val();
 
-            $('#id_city').get(0).selectedIndex = 0;
+            var id_city = $('#id_city');
+
+            id_city.get(0).selectedIndex = 0;
 
             $('#div_city').show();
 
-            var select_options = $('#id_city').children();
+            var select_options = id_city.children();
 
             for (var i = 1; i < select_options.length; i++) {
-                if (!select_options.get(i).id.endsWith('_' + id_refference)) {
+                if (!select_options.get(i).id.endsWith('_' + id_state)) {
                     $('#' + select_options.get(i).id).hide();
                 } else {
                     $('#' + select_options.get(i).id).show();
@@ -122,11 +118,13 @@
         function city_changed() {
             var id_city = $('#id_city').val();
 
+            var id_district = $('#id_district');
+
             $('#div_district').show();
 
-            $('#id_district').get(0).selectedIndex = 0;
+            id_district.get(0).selectedIndex = 0;
 
-            var select_options = $('#id_district').children();
+            var select_options = id_district.children();
 
             for (var i = 1; i < select_options.length; i++) {
                 if (!select_options.get(i).id.endsWith('_' + id_city)) {
@@ -137,6 +135,4 @@
             }
         }
     </script>
-
-
 @endsection

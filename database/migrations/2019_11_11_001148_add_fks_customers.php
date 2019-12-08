@@ -4,29 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   AddFksCustomers - migration (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      id_USU(FK) : user id who signed up,
-//      id_REF(FK) : set state (Federative Unit) for customer,
-//      id_CIT(FK) : set city for customer,
-//      id_DIS(FK) : set district for customer
-//
-//
-//////////////////////////////////////////////////////////////////
 class AddFksCustomers extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
@@ -44,11 +23,6 @@ class AddFksCustomers extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('customers', function (Blueprint $table) {
