@@ -4,65 +4,31 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   Product - model (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Description:
-//    Columns(Name : description)
-// 	    id_PRO(PK) : id for table Contact, 
-//      id_USU(FK) : user id who signed up,
-//      type_PRO   : product type (product, material or service)
-//      id_REF(FK) : set class for product,	
-//      id_SUP(FK) : set product supplier,
-//      desc_PRO   : product description, 
-//      umea_PRO   : product unit of measurement
-//      cost_PRO   : product cost,
-//      value_PRO  : product value (desnormalized),
-//      min_PRO    : minimum stock quantity,
-//      stoc_PRO   : quantity in stock,
-//      extra_CON  : extra information    LIGACAO MANY TO MANY
-//
-//////////////////////////////////////////////////////////////////
 class Product extends Model
 {
- /* PROTECTED ----------------------------------------------------*/
+    protected $fillable=['class', 'description', 'measurement_unit', 'cost', 'price', 'minimum_quantity', 'quantity', 'extra','id_user','id_refference'];
 
-    // Attributes
-    protected $fillable=['type_PRO', 'desc_PRO', 'umea_PRO', 'cost_PRO', 'value_PRO', 'min_PRO', 'stoc_PRO', 'extra_PRO','id_USU','id_REF'];
+    protected $hidden = ['id_user','id_refference'];
 
-    // Hidden attributes but will have a user friendly name on the form
-    protected $hidden = ['id_USU','id_REF'];
+    public $timestamps=false;
 
- /* PUBLIC ---------------------------------------------------------- */
-
-    public $timestamps=false;    
-
-    /* belongsTo functions --------------------------*/   
-
-    public function getProductRefference()
+    public function refference()
     {
-        return $this->belongsTo('App\Refference','id_REF','id_REF');
+        return $this->belongsTo('App\Refference','id_refference');
     }     
 
-    /* belongsToMany functions ----------------------*/ 
-
-    public function getSalesByProduct()
+    public function sales()
     {
         return $this->belongsToMany('App/Sale');
     } 
 
-    public function getReceiptsByProduct()
+    public function receipts()
     {
         return $this->belongsToMany('App/Receipt');
     }    
 
-    public function getSuppliersByProduct()
+    public function suppliers()
     {
         return $this->belongsToMany('App/Supplier');
     }          
-
 }

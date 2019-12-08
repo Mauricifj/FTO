@@ -2,105 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Product;
+use App\ProductClass;
+use App\Refference;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ProductController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   05/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered products and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
         $products = product::all();
-        return view('product.index')->with('products',$products);
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('product.index', compact('products', 'user', 'message', 'error'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view ('product.create');
+        $types = Refference::all()->where('type', 'type');
+
+        $classes = ProductClass::allClasses();
+
+        return view ('product.create', compact('types', 'classes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        Aluno::create($request->all());
+        $request['id_user'] = auth()->user()->getAuthIdentifier();
+        $product = Product::create($request->all());
+
+        if ($product != null)
+            $request->session()->flash('message', "{$product->description} adicionado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível adicionar.");
+
         return redirect('product');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
-        return view('product.edit')->with('product',$product);
+        $types = Refference::all()->where('type', 'type');
+
+        $classes = ProductClass::allClasses();
+
+        return view('product.edit', compact('product', 'types', 'classes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        if ($product->update($request->all()))
+            $request->session()->flash('message', "{$product->description} alterado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível alterar.");
+
         return redirect('product'); 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
-        //
+        if (Product::destroy($product->id))
+            $request->session()->flash('message', "{$product->description} excluído(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível excluir.");
+
+        return redirect('product');
     }
 }
