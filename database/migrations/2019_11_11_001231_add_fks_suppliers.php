@@ -4,28 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   AddFksSuppliers - migration (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      id_USU(FK) : user id who signed up,
-//      id_REF(FK) : set state (Federative Unit) for supplier,
-//      id_CIT(FK) : set city for supplier,
-//      id_DIS(FK) : set district for supplier
-//
-//////////////////////////////////////////////////////////////////
 class AddFksSuppliers extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('suppliers', function (Blueprint $table) {
@@ -43,11 +23,6 @@ class AddFksSuppliers extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('suppliers', function (Blueprint $table) {

@@ -2,105 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
+use App\District;
+use App\Http\Requests\SupplierRequest;
+use App\Refference;
 use App\Supplier;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   SupplierController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered suppliers and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
         $suppliers = supplier::all();
-        return view('supplier.index')->with('suppliers',$suppliers); 
+
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('supplier.index', compact('suppliers', 'user', 'message', 'error'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view ('supplier.create');
+        $states = Refference::all()->where('type', 'state');
+        $cities = City::all();
+        $districts = District::all();
+
+        return view ('supplier.create', compact('states', 'cities', 'districts'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        Aluno::create($request->all());
+        $request['id_user'] = auth()->user()->getAuthIdentifier();
+        Supplier::create($request->all());
+
         return redirect('supplier');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Supplier $supplier)
     {
-        return view('supplier.edit')->with('supplier',$supplier);
+        $states = Refference::all()->where('type', 'state');
+        $cities = City::all();
+        $districts = District::all();
+
+        return view ('supplier.edit', compact('supplier', 'states', 'cities', 'districts'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Supplier $supplier)
+    public function update(SupplierRequest $request, Supplier $supplier)
     {
         $supplier->update($request->all());
         return redirect('supplier'); 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Supplier $supplier)
+    public function destroy(Request $request, Supplier $supplier)
     {
-        //
+        if (Supplier::destroy($supplier->id))
+            $request->session()->flash('message', "{$supplier->company_name} excluído(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível excluir.");
+
+        return redirect('supplier');
     }
 }

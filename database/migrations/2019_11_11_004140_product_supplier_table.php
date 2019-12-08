@@ -4,27 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ProductSupplierTable (Catalog) - migration (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Columns(Name    : description)
-//      id_PROSAL(PK) : id for resolution table ProductSupplier, 
-//      id_SUP(FK)    : set supplier to which the items belong,
-//      id_PRO(FK)    : set catalog products
-//
-//////////////////////////////////////////////////////////////////
 class ProductSupplierTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('product_supplier', function (Blueprint $table) {
@@ -38,11 +19,6 @@ class ProductSupplierTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('product_supplier');

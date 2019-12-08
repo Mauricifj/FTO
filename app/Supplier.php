@@ -4,72 +4,35 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   Supplier - model (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   27/10/2019
-//
-//  Description:
-//    Columns(Name  : description)
-// 	    id_SUP(PK)  : id for table Supplier, 
-//      id_USU(FK)  : user id who signed up,
-//      corp_SUP    : supplier corporate name, 
-//      fant_SUP    : supplier fantasy name,
-//      cnpj_SUP    : supplier document, 
-//      address_SUP : supplier address, 
-//      num_SUP     : supplier address number, 
-//      comp_SUP    : supplier address complement, 
-//      cep_SUP     : supplier address cep, 
-//      id_REF(FK)  : set state for supplier,	 
-//      id_CIT(FK)  : set City for supplier,
-//      id_DIS(FK)  : set District for supplier, 
-//      extra_SUP   : extra information
-//
-////////////////////////////////////////////////////////////////////
 class Supplier extends Model
 {
- /* PROTECTED ----------------------------------------------------*/
+    protected  $fillable=['company_name', 'fantasy_name', 'cnpj', 'address', 'number', 'complement', 'zipcode', 'extra', 'id_user', 'id_refference', 'id_city', 'id_district'];
 
-    // Attributes
-    protected  $fillable=['corp_SUP', 'fant_SUP', 'cnpj_SUP', 'address_SUP', 'num_SUP', 'comp_SUP', 'cep_SUP', 'extra_SUP','id_USU','id_REF','id_CIT','id_DIS'];
+    protected  $hidden = ['id_user', 'id_refference', 'id_city', 'id_district'];
 
-    // Hidden attributes but will have a user friendly name on the form
-    protected  $hidden = ['id_USU','id_REF','id_CIT','id_DIS'];
+    public  $timestamps=false;
 
- /* PUBLIC --------------------------------------------------------*/
-
-    public  $timestamps=false;  
-
-    /* hasMany functions ---------------------------*/  
-
-    public function getAllSupplierReceipts()
+    public function receipts()
     {
-        return $this->hasMany('App\Receipt','id_SUP');
+        return $this->hasMany('App\Receipt','id_supplier');
     }  
 
-
-    /* belongsTo functions --------------------------*/   
-
-    public function getSupplierRefference()
+    public function refference()
     {
-        return $this->belongsTo('App\Refference','id_REF','id_REF');
+        return $this->belongsTo('App\Refference','id_refference');
     }  
 
-    public function getSupplierCity()
+    public function city()
     {
-        return $this->belongsTo('App\City','id_CIT','id_CIT');
+        return $this->belongsTo('App\City','id_city');
     }   
 
-    public function getSupplierDistrict()
+    public function district()
     {
-        return $this->belongsTo('App\District','id_DIS','id_DIS');
+        return $this->belongsTo('App\District','id_district');
     } 
 
-    /* belongsToMany functions ----------------------*/ 
-
-    public function getProductsBySupplier()
+    public function products()
     {
         return $this->belongsToMany('App/Product');
     }     
