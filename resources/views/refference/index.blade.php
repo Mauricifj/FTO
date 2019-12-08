@@ -1,5 +1,13 @@
+<?php $title = 'Referência'; ?>
+
+@foreach ($types as $type)
+    @if($queryString == $type->value)
+        <?php $title = $type->description; ?>
+    @endif
+@endforeach
+
 @extends('layouts/app')
-@section('title','Referências')
+@section('title', $title)
 @section('content')
     @if(!empty($message))
         <div class="alert alert-success">{{$message}}</div>
@@ -21,7 +29,13 @@
         @if (sizeof($refferences) != 0)
             @foreach($refferences as $refference)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{ $refference->description }} ({{$refference->type}})</span>
+                    <span>{{ $refference->description }}
+                        @foreach($types as $type)
+                            @if ($refference->type == $type->value)
+                                ({{$type->description}})
+                            @endif
+                        @endforeach
+                    </span>
                     @if ($user->isAdmin() || $user->isManager())
                         <span class="d-flex">
                     <a href="/refference/{{ $refference->id }}/edit" class="btn btn-outline-warning btn-sm mr-1">

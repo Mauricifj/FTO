@@ -1,6 +1,15 @@
 @extends('layouts/app')
 @section('title','Nova referência')
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-1">
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form method="post" action="/refference">
         @csrf
         <div class="form-group">
@@ -19,8 +28,8 @@
             <label for="type">Tipo</label>
             <select name="type" class="form-control" id="type">
                 <option value="">Selecione...</option>
-                @foreach($types as $type => $value)
-                    <option value="{{$type}}">{{$value}}</option>
+                @foreach($types as $type)
+                    <option value="{{$type->value}}">{{$type->description}}</option>
                 @endforeach
             </select>
         </div>

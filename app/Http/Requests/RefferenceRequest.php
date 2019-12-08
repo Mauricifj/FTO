@@ -4,39 +4,28 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   RefferenceRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class RefferenceRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            'id_user' => 'required',
-            'id_refference' => 'required',
+            'description' => 'required|max:100',
+            'acronym' => 'required|max:10',
+            'type' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'type.required' => 'O campo tipo é obrigatório',
+            'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];
     }
 }

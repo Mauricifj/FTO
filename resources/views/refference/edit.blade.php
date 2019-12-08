@@ -29,8 +29,8 @@
             <label for="type">Tipo</label>
             <select name="type" class="form-control" id="type">
                 <option value="">Selecione...</option>
-                @foreach($types as $type => $value)
-                    <option value="{{$type}}" {{ ($type == $refference->type) ? 'selected' : '' }}>{{$value}}</option>
+                @foreach($types as $type)
+                    <option value="{{$type->value}}" {{ ($type->value == $refference->type) ? 'selected' : '' }}>{{$type->description}}</option>
                 @endforeach
             </select>
         </div>

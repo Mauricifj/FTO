@@ -2,95 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RefferenceRequest;
+use App\ReferenceType;
 use App\Refference;
 use App\User;
 use Illuminate\Http\Request;
 
 class RefferenceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $refferences = refference::all();
+        $queryString = $request->query('type');
+        if ($queryString != null)
+            $refferences = Refference::all()->where('type', $queryString);
+        else
+            $refferences = Refference::all();
+
+        $types = ReferenceType::allTypes();
+
         $user = User::find(auth()->user()->getAuthIdentifier());
-        return view('refference.index', compact('refferences', 'user'));
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('refference.index', compact('refferences', 'user', 'types', 'message', 'error', 'queryString'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        $types = ['estado' => 'Estado', 'forma_pagamento' => 'Forma de pagamento', 'forma_contato' => 'Forma de contato', 'forma_relatorio' => 'Forma de relatório'];
+        $types = ReferenceType::allTypes();
         return view ('refference.create', compact('types'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(RefferenceRequest $request)
     {
-        $refference = new Refference($request->all());
-        $refference->id_user = $request->user()->id;
-        $refference->save();
+        $request['id_user'] = auth()->user()->getAuthIdentifier();
+        $refference = Refference::create($request->all());
 
-        return redirect('refference');
+        if ($refference != null)
+            $request->session()->flash('message', "{$refference->description} adicionado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível adicionar.");
+
+        return redirect('refference?type=' . $request->type);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Refference  $refference
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Refference $refference)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Refference  $refference
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Refference $refference)
     {
-        $types = ['estado' => 'Estado', 'forma_pagamento' => 'Forma de pagamento', 'forma_contato' => 'Forma de contato', 'forma_relatorio' => 'Forma de relatório'];
+        $types = ReferenceType::allTypes();
         return view('refference.edit', compact('refference', 'types'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param Refference $refference
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Refference $refference)
+    public function update(RefferenceRequest $request, Refference $refference)
     {
         $refference->update($request->all());
         return redirect('refference'); 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(int $id)
+    public function destroy(Request $request, Refference $refference)
     {
-        Refference::destroy($id);
+        if (Refference::destroy($refference->id))
+            $request->session()->flash('message', "{$refference->description} excluído(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível excluir.");
+
         return redirect('refference');
     }
 }
