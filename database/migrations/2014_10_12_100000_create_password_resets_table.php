@@ -4,27 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   CreatePasswordResetsTable (class)
-//
-//  Author: Laravel (Jefferson Rodrigues de Oliveira)
-//
-//  Date:   27/10/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      email      : e-mail, 
-//      token      : token,
-//      created_at : date of creation
-//
-//////////////////////////////////////////////////////////////////
 class CreatePasswordResetsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('password_resets', function (Blueprint $table) {
@@ -34,11 +15,6 @@ class CreatePasswordResetsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('password_resets');
