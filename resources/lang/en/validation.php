@@ -141,6 +141,24 @@ return [
     |
     */
 
-    'attributes' => ['name' => 'nome', 'id_refference' => 'referência', 'id_city' => 'cidade'],
-
+    'attributes' => [
+        'name' => 'nome',
+        'gender' => 'gênero',
+        'address' => 'endereço',
+        'number' => 'número',
+        'zipcode' => 'cep',
+        'id_district' => 'bairro',
+        'birthdate' => 'data de nascimento',
+        'id_refference' => 'referência',
+        'id_city' => 'cidade',
+        'description' => 'descrição',
+        'type' => 'tipo',
+        'acronym' => 'sigla',
+        'cost' => 'valor de custo',
+        'price' => 'valor de venda',
+        'minimum_quantity' => 'quantidade mínima de estoque',
+        'quantity' => 'quantidade',
+        'company_name' => 'razão social',
+        'fantasy_name' => 'nome fantasia',
+    ],
 ];
