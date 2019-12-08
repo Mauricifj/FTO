@@ -4,27 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   AddFksReceipts - migration (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      id_USU(FK) : user id who signed up,
-//      id_REF(FK) : set payment form for receipt,
-//      id_SUP(FK) : receipt supplier
-//
-//////////////////////////////////////////////////////////////////
 class AddFksReceipts extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('receipts', function (Blueprint $table) {
@@ -39,11 +20,6 @@ class AddFksReceipts extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('receipts', function (Blueprint $table) {

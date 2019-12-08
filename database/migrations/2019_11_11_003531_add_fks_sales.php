@@ -4,27 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   AddFksSales - migration (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Columns(Name : description)
-//      id_USU(FK) : user id who signed up,
-//      id_REF(FK) : set sale payment form,
-//      id_CST(FK) : set sale customer
-//
-//////////////////////////////////////////////////////////////////
 class AddFksSales extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
@@ -39,11 +20,6 @@ class AddFksSales extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('sales', function (Blueprint $table) {
