@@ -25,8 +25,8 @@
             <label for="id_refference">Referência</label>
             <select name="id_refference" class="form-control" id="id_refference">
                 <option value="">Selecione...</option>
-                @foreach($refferences as $refference)
-                    <option value="{{$refference->id}}" {{ ($city->id_refference == $refference->id) ? 'selected' : '' }}>{{$refference->description}}</option>
+                @foreach($states as $state)
+                    <option value="{{$state->id}}" {{ ($city->id_refference == $state->id) ? 'selected' : '' }}>{{$state->description}}</option>
                 @endforeach
             </select>
         </div>

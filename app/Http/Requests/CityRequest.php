@@ -6,21 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CityRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -33,6 +22,7 @@ class CityRequest extends FormRequest
     public function messages()
     {
         return [
+            'id_refference.required' => 'O campo estado é obrigatório',
             'required' => 'O campo :attribute é obrigatório',
             'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];

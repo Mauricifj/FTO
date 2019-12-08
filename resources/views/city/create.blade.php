@@ -5,11 +5,7 @@
         <div class="alert alert-danger">
             <ul class="mb-1">
                 @foreach($errors->all() as $error)
-                    @if (str_contains($error, "referência"))
-                        <li>O campo estado é obrigatório</li>
-                    @else
-                        <li>{{$error}}</li>
-                    @endif
+                    <li>{{$error}}</li>
                 @endforeach
             </ul>
         </div>
