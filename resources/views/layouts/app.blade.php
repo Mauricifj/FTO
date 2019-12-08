@@ -15,17 +15,21 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/245389d3e8.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('styles')
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="/img/logo.png" alt="FTO Solutions" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -34,8 +38,45 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Documentos
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="product_dropdown">
+                                <a class="dropdown-item" href="/report">Relatórios</a>
+                                <a class="dropdown-item" href="/sale">Vendas</a>
+                                <a class="dropdown-item" href="/receipt">Recibos</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="contact_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Pessoas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="_dropdown">
+                                <a class="dropdown-item" href="/customer">Clientes</a>
+                                <a class="dropdown-item" href="/supplier">Fornecedores</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/product">Produtos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contatos</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="address_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Endereços
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="address_dropdown">
+                                <a class="dropdown-item" href="/district">Bairros</a>
+                                <a class="dropdown-item" href="/city">Cidades</a>
+                                <a class="dropdown-item" href="/refference?type=state">Estados</a>
+                            </div>
+                        </li>
 
                     </ul>
+
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

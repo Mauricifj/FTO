@@ -1,112 +1,21 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>FTO Solutions</title>
+@section('title','Página inicial')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+@section('content')
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    @guest
 
-            .full-height {
-                height: 100vh;
-            }
+        <a class="btn btn-outline-primary" href="/login">Entrar</a>
+        <a class="btn btn-outline-secondary" href="/register">Registrar</a>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    @else
 
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();
-                        ">
-                            Sair
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
-                            @csrf
-                            <button type="submit">Sair</button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}">Entrar</a>
-                        <a href="{{ route('register') }}">Registrar</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    FTO Solutions
-                </div>
-
-                <div class="links">
-                    <a href="/city">Cidades</a>
-                    <a href="/refference">Referências</a>
-                    <a href="/customer">Clientes</a>
-                    <a href="/contact">Contatos</a>
-                    <a href="/district">Bairros</a>
-                </div>
-                <div class="links">
-                    <a href="/product">Produtos</a>
-                    <a href="/receipt">Recibos</a>
-                    <a href="/report">Relatórios</a>
-                    <a href="/sale">Vendas</a>
-                    <a href="/supplier">Fornecedores</a>
-                </div>
-            </div>
+        <div class="container text-center align-middle pt-5" style="height: 100px;">
+            <h1 class="display-4 mt-5">FTO Solutions</h1>
+            <p class="">A solução do seu sistema de gestão de estoque</p>
         </div>
-    </body>
-</html>
+
+    @endguest
+
+@endsection
