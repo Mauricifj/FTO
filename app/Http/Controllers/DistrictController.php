@@ -10,12 +10,6 @@ use Illuminate\Http\Request;
 
 class DistrictController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $districts = District::all();
@@ -27,23 +21,12 @@ class DistrictController extends Controller
         return view('district.index', compact('districts', 'user', 'message', 'error'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $cities = City::all();
         return view ('district.create', compact('cities'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param DistrictRequest $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(DistrictRequest $request)
     {
         $district = new District($request->all());
@@ -57,25 +40,12 @@ class DistrictController extends Controller
         return redirect('district');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\District  $district
-     * @return \Illuminate\Http\Response
-     */
     public function edit(District $district)
     {
         $cities = City::all();
         return view ('district.edit', compact('district', 'cities'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param DistrictRequest $request
-     * @param  \App\District $district
-     * @return \Illuminate\Http\Response
-     */
     public function update(DistrictRequest $request, District $district)
     {
         if ($district->update($request->all()))
@@ -86,13 +56,6 @@ class DistrictController extends Controller
         return redirect('district');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @param District $district
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, District $district)
     {
         if (District::destroy($district->id))

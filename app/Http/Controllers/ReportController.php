@@ -3,104 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use App\Sale;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ReportController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered reports and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $reports = report::all();
-        return view('report.index')->with('reports',$reports); 
+        $sales3Months = Sale::all()->where('created_at', '>=', Carbon::now()->subMonths(3)->firstOfMonth())->where('created_at', '<=' , Carbon::now()->subMonths(3)->lastOfMonth())->where('situation', 'paid');
+        $sales2Months = Sale::all()->where('created_at', '>=', Carbon::now()->subMonths(2)->firstOfMonth())->where('created_at', '<=' , Carbon::now()->subMonths(2)->lastOfMonth())->where('situation', 'paid');
+        $sales1Months = Sale::all()->where('created_at', '>=', Carbon::now()->subMonths(1)->firstOfMonth())->where('created_at', '<=' , Carbon::now()->subMonths(1)->lastOfMonth())->where('situation', 'paid');
+        $salesThisMonth = Sale::all()->where('created_at', '>=', Carbon::now()->firstOfMonth())->where('created_at', '<=' , Carbon::now()->lastOfMonth())->where('situation', 'paid');
+
+        $money3Months = $this->calculateSalesMoney($sales3Months);
+        $money2Months = $this->calculateSalesMoney($sales2Months);
+        $money1Months = $this->calculateSalesMoney($sales1Months);
+        $moneyThisMonth = $this->calculateSalesMoney($salesThisMonth);
+
+        $quantity3Months = $this->calculateSalesQuantity($sales3Months);
+        $quantity2Months = $this->calculateSalesQuantity($sales2Months);
+        $quantity1Months = $this->calculateSalesQuantity($sales1Months);
+        $quantityThisMonth = $this->calculateSalesQuantity($salesThisMonth);
+
+        return view('report.index', compact(
+            'money3Months',
+            'money2Months',
+            'money1Months',
+            'moneyThisMonth',
+            'quantity3Months',
+            'quantity2Months',
+            'quantity1Months',
+            'quantityThisMonth'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function calculateSalesMoney(Collection $sales)
     {
-        return view ('report.create');
+        $sum = 0;
+
+        foreach ($sales as $sale) {
+            $sum += $sale->total;
+        }
+
+        return $sum;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    private function calculateSalesQuantity(Collection $sales)
     {
-        Aluno::create($request->all());
-        return redirect('report');
-    }
+        $sum = 0;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Report $report)
-    {
-        //
-    }
+        foreach ($sales as $sale) {
+            $sum += 1;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Report $report)
-    {
-        return view('report.edit')->with('report',$report);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Report $report)
-    {
-        $report->update($request->all());
-        return redirect('report'); 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Report $report)
-    {
-        //
+        return $sum;
     }
 }

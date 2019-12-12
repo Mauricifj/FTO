@@ -36,12 +36,19 @@ class CustomerController extends Controller
         $request['id_user'] = $request->user()->id;
         $customer = Customer::create($request->all());
 
-        if ($customer != null) {
+        if ($customer != null)
             $request->session()->flash('message', "{$customer->name} adicionado(a) com sucesso.");
-        } else
+        else
             $request->session()->flash('error', "Não foi possível adicionar {$customer->name}.");
 
         return redirect('customer');
+    }
+
+    public function show(Customer $customer)
+    {
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        return view ('customer.show', compact('customer', 'user'));
     }
 
     public function edit(Customer $customer)

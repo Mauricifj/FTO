@@ -56,10 +56,18 @@
             <select name="id_refference" class="form-control" id="id_refference">
                 <option value="">Selecione...</option>
                 @foreach($types as $type)
-                    <option value="{{$type->id}}" {{ ($product->refference->id == $type->id) ? 'selected' : '' }}>{{$type->description}}</option>
+                    <option value="{{$type->value}}" {{ ($product->refference->id == $type->id) ? 'selected' : '' }}>{{$type->description}}</option>
                 @endforeach
-            </select>
-        </div>
+                    q        </div>
+{{--        <div class="form-group">--}}
+{{--            <label for="id_supplier">Fornecedor</label>--}}
+{{--            <select name="id_supplier" class="form-control" id="id_supplier">--}}
+{{--                <option value="">Selecione...</option>--}}
+{{--                @foreach($suppliers as $supplier)--}}
+{{--                    <option value="{{$supplier->id}}" {{ ($product->supplier->id == $supplier->id) ? 'selected' : '' }}>{{$supplier->company_name}}</option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+{{--        </div>--}}
         <a href="/product" class="btn btn-outline-info mt-2 mr-2">
             <i class="fas fa-long-arrow-alt-left"></i> Voltar
         </a>

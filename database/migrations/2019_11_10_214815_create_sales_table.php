@@ -6,28 +6,26 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSalesTable extends Migration
 {
-
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('description',100);
-            $table->string('invoice',20);
-            $table->string('condition',100);
-            $table->string('type',20);
+            $table->string('description', 100);
+            $table->string('invoice', 29);
+            $table->enum('condition', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+            $table->string('type', 20);
 
-            $table->date('date');
-            $table->time('hour');
-            $table->date('end_date');
-            $table->time('end_hour');
+            $table->datetime('ended_at')->nullable();
 
-            $table->float('amount',2);
-            $table->float('discount',2);
-            $table->float('total',2);
-         
-            $table->string('situation',20);
-            $table->string('extra',200)->nullable();
+            $table->float('amount', 10, 2);
+            $table->float('discount', 10, 2);
+            $table->float('total', 10, 2);
+
+            $table->enum('situation', ['canceled', 'not_paid', 'awaiting_payment', 'paid']);
+            $table->string('extra', 200)->nullable();
+
+            $table->timestamps();
         });
     }
 

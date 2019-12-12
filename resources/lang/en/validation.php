@@ -151,6 +151,7 @@ return [
         'birthdate' => 'data de nascimento',
         'id_refference' => 'referência',
         'id_city' => 'cidade',
+        'id_customer' => 'cliente',
         'description' => 'descrição',
         'type' => 'tipo',
         'acronym' => 'sigla',
@@ -160,5 +161,8 @@ return [
         'quantity' => 'quantidade',
         'company_name' => 'razão social',
         'fantasy_name' => 'nome fantasia',
+        'condition' => 'parcelas',
+        'situation' => 'situação',
+        'discount' => 'desconto',
     ],
 ];

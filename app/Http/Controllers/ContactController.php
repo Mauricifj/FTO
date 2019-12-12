@@ -3,105 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Http\Requests\ContactRequest;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ContactController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered contacts and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        // Get all registered contacts and pass them to view
         $contacts = contact::all();
-        return view('contact.index')->with('contacts',$contacts);   
+
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('contact.index', compact('contacts', 'user', 'message', 'error'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view ('contact.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        Aluno::create($request->all());
+        $request['id_user'] = $request->user()->id;
+        Contact::create($request->all());
         return redirect('contact');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Contact $contact)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Contact $contact)
     {
-        return view('contact.edit')->with('contact',$contact);
+        return view('contact.edit', compact('contact'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Contact $contact)
+    public function update(ContactRequest $request, Contact $contact)
     {
         $contact->update($request->all());
         return redirect('contact'); 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Contact $contact)
     {
-        //
+        Contact::destroy($contact->id);
+        return redirect('contact.index');
     }
 }

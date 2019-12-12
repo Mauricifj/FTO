@@ -37,6 +37,4 @@
             Alterar <i class="fas fa-plus"></i>
         </button>
     </form>
-
-    </form>
 @endsection

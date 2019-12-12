@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ReportRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class ReportRequest extends FormRequest
 {
     public function authorize()
@@ -25,7 +14,6 @@ class ReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_refference' => 'required',
         ];
     }
 

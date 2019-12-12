@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Product;
 use App\ProductClass;
 use App\Refference;
+use App\Supplier;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,9 @@ class ProductController extends Controller
 
         $classes = ProductClass::allClasses();
 
-        return view ('product.create', compact('types', 'classes'));
+        $suppliers = Supplier::all();
+
+        return view ('product.create', compact('types', 'classes', 'suppliers'));
     }
 
     public function store(ProductRequest $request)
@@ -50,7 +53,9 @@ class ProductController extends Controller
 
         $classes = ProductClass::allClasses();
 
-        return view('product.edit', compact('product', 'types', 'classes'));
+        $suppliers = Supplier::all();
+
+        return view('product.edit', compact('product', 'types', 'classes', 'suppliers'));
     }
 
     public function update(Request $request, Product $product)

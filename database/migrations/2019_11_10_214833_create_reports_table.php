@@ -10,8 +10,7 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description',100);
-            $table->date('date');
+            $table->datetime('date');
             $table->string('extra',200)->nullable();
         });
     }

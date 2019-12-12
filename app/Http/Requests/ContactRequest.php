@@ -14,6 +14,7 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
+            'description' => 'required',
             'id_refference' => 'required',
             'extra' => 'max:200',
         ];
@@ -23,6 +24,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute precisa ter menos de :max caracteres',
         ];
     }
 }

@@ -4,61 +4,31 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   Sale - model (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   27/10/2019
-//
-//  Description:
-//    Columns(Name : description)
-// 	  id_SAL(PK)   : id for table Sale, 
-//      id_USU(FK) : user id who signed up,
-//      date_SAL   : sale date,
-//      hour_SAL   : sale hour,
-//      invo_SAL   : sale invoice,
-//      desc_SAL   : sale description, 
-//      type_SAL   : sale type (sale or budget),
-//      situa_SAL  : sale situation,
-//      id_REF(FK) : set form for payment for sale,	
-//      datef_SAL  : sale finalization date, 
-//      hourf_SAL  : sale finalization hour,
-//      disco_SAL  : discount amount,
-//      total_SAl  : total sale   LIGACAO MANY TO MANY
-//
-//////////////////////////////////////////////////////////////////
 class Sale extends Model
 {
- /* PROTECTED ----------------------------------------------------*/
+    protected $fillable = ['invoice', 'description', 'type', 'situation', 'condition', 'ended_at', 'amount', 'discount', 'total', 'id_user', 'id_refference', 'id_customer', 'created_at'];
 
-    // Attributes
-    protected  $fillable=['date_SAL', 'hour_SAL', 'invo_SAL', 'desc_SAL', 'type_SAL', 'situa_SAL', 'datef_SAL', 'hourf_SAL', 'disco_SAL', 'total_SAL','id_USU','id_REF','id_CST'];
+    protected $hidden = ['id_user', 'id_refference', 'id_customer'];
 
-    // Hidden attributes but will have a user friendly name on the form
-    protected $hidden = ['id_USU','id_REF','id_CST'];
+    public $timestamps = true;
 
- /* PUBLIC --------------------------------------------------------*/
-
-    public $timestamps=false;   
-
-    /* belongsTo functions --------------------------*/   
-
-    public function getSaleRefference()
+    public function refference()
     {
-        return $this->belongsTo('App\Refference','id_REF','id_REF');
-    }   
+        return $this->belongsTo('App\Refference', 'id_refference');
+    }
 
-    public function getSaleCustomer()
+    public function customer()
     {
-        return $this->belongsTo('App\Customer','id_CST','id_CST');
-    }    
+        return $this->belongsTo('App\Customer', 'id_customer');
+    }
 
-    /* belongsToMany functions ----------------------*/ 
-
-    public function getSaleItems()
+    public function products()
     {
-        return $this->belongsToMany('App/Product');
-    }        
+        return $this->belongsToMany('App\Product', 'product_sale', 'id_sale', 'id_product');
+    }
 
+    public function items()
+    {
+        return $this->hasMany('App\Item', 'id_sale');
+    }
 }

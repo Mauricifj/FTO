@@ -12,9 +12,6 @@ class AddFksReceipts extends Migration
             $table->integer('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('id_refference')->unsigned();
-            $table->foreign('id_refference')->references('id')->on('refferences')->onDelete('cascade');
-
             $table->integer('id_supplier')->unsigned();
             $table->foreign('id_supplier')->references('id')->on('suppliers')->onDelete('cascade');
         });
@@ -26,9 +23,6 @@ class AddFksReceipts extends Migration
             $table->dropForeign('id_user');
             $table->dropColumn('id_user');
           
-            $table->dropForeign('id_refference');
-            $table->dropColumn('id_refference');
-
             $table->dropForeign('id_supplier');
             $table->dropColumn('id_supplier');
         });

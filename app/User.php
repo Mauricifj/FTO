@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\MailResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -29,5 +30,10 @@ class User extends Authenticatable
     public function isManager()
     {
         return $this->role == 'manager' ? true : false;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordNotification($token));
     }
 }

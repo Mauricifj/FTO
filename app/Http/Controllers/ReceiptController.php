@@ -2,105 +2,113 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
+use App\Product;
 use App\Receipt;
+use App\District;
+use App\Http\Requests\ReceiptRequest;
+use App\Refference;
+use App\Supplier;
+use App\User;
 use Illuminate\Http\Request;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   ReceiptController (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   04/11/2019
-//
-//  Functions:
-//    Name    : Description
-//    index   : Get all registered receipts and pass them to view
-//    create  :
-//    store   :
-//    show    :
-//    edit    :
-//    update  :
-//    destroy :
-//
-//////////////////////////////////////////////////////////////////
 class ReceiptController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $receipts = receipt::all();
-        return view('receipt.index')->with('receipts',$receipts); 
+        $receipts = Receipt::all();
+
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        $message = $request->session()->get('message');
+        $error = $request->session()->get('error');
+
+        return view('receipt.index', compact('receipts', 'user', 'message', 'error'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view ('receipt.create');
+        $products = Product::all();
+        $suppliers = Supplier::all();
+        return view ('receipt.create', compact('products', 'suppliers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ReceiptRequest $request)
     {
-        Aluno::create($request->all());
+        $request['id_user'] = $request->user()->id;
+
+        $request['invoice'] = uniqid('invoice_');
+
+        $receipt = Receipt::create($request->all());
+
+        if ($receipt != null) {
+
+            foreach ($request['products'] as $product) {
+                $prod = Product::find($product['id']);
+
+                Item::create([
+                    'id_product' => $prod->id,
+                    'quantity' => $product['quantity'],
+                    'description' => $prod->description,
+                    'id_receipt' => $receipt->id
+                ]);
+            }
+
+            $this->updateProductsQuantity($request['products']);
+
+            $request->session()->flash('message', "{$receipt->invoice} adicionado com sucesso.");
+        } else
+            $request->session()->flash('error', "Não foi possível adicionar.");
+
         return redirect('receipt');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Receipt  $receipt
-     * @return \Illuminate\Http\Response
-     */
     public function show(Receipt $receipt)
     {
-        //
+        $index = 0;
+        return view ('receipt.show', compact('receipt', 'index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Receipt  $receipt
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Receipt $receipt)
+//    public function edit(Receipt $receipt)
+//    {
+//        return view ('receipt.edit', compact('receipt'));
+//    }
+
+//    public function update(ReceiptRequest $request, Receipt $receipt)
+//    {
+//        if ($receipt->update($request->all()))
+//            $request->session()->flash('message', "{$receipt->invoice} alterado com sucesso.");
+//        else
+//            $request->session()->flash('error', "Não foi possível alterar.");
+//
+//        return redirect('receipt');
+//    }
+
+    public function destroy(Request $request, Receipt $receipt)
     {
-        return view('receipt.edit')->with('receipt',$receipt);
+        $receipt->situation = 'canceled';
+        $receipt->save();
+
+        foreach ($receipt->items as $item) {
+            $product = Product::find($item->product->id);
+
+            $product->quantity -= $item->quantity;
+
+            $product->save();
+        }
+
+        return redirect('receipt');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Receipt  $receipt
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Receipt $receipt)
+    private function updateProductsQuantity(array $products)
     {
-        $receipt->update($request->all());
-        return redirect('receipt'); 
-    }
+        foreach ($products as $product)
+        {
+            $prod = Product::find($product['id']);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Receipt  $receipt
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Receipt $receipt)
-    {
-        //
+            $prod->quantity += $product['quantity'];
+
+            $prod->save();
+        }
     }
 }

@@ -4,17 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-//////////////////////////////////////////////////////////////////
-//  Name:   SaleRequest - FormRequest (class)
-//
-//  Author: Jefferson Rodrigues de Oliveira
-//
-//  Date:   10/11/2019
-//
-//  Description:
-//    Implements forms validations
-//
-//////////////////////////////////////////////////////////////////
 class SaleRequest extends FormRequest
 {
     public function authorize()
@@ -25,13 +14,19 @@ class SaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_refference' => 'required',
+            'description' => 'required|max:200',
+            'type'=> 'required|max:20',
+            'situation'=> 'required',
+            'condition'=> 'required',
+            'id_refference'=> 'required',
+            'id_customer'=> 'required',
         ];
     }
 
     public function messages()
     {
         return [
+            'id_refference.required' => 'O campo tipo de pagamento é obrigatório',
             'required' => 'O campo :attribute é obrigatório',
             'max' => 'O campo :attribute precisa ter menos de :max caracteres'
         ];

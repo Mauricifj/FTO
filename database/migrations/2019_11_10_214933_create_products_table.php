@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('minimum_quantity');
             $table->integer('quantity');
             $table->string('extra',200)->nullable();
+            $table->dateTime('updated_at')->nullable();
         });
     }
 

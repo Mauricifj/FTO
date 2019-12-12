@@ -32,4 +32,8 @@ class Customer extends Model
         return $this->belongsTo('App\District', 'id_district');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany('App\Contact', 'id_customer');
+    }
 }

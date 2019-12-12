@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
+    <title>{{ config('app.name', 'FTO') }} - @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -59,9 +59,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/product">Produtos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/contact">Contatos</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="address_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -118,6 +115,9 @@
             </div>
         </main>
     </div>
+
+    <script src="https://www.chartjs.org/samples/latest/utils.js" crossorigin="anonymous"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js" crossorigin="anonymous"></script>
 
     @yield('scripts')
 </body>

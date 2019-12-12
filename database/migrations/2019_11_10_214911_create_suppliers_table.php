@@ -27,3 +27,4 @@ class CreateSuppliersTable extends Migration
         Schema::dropIfExists('suppliers');
     }
 }
+

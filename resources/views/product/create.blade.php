@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Nova Cidade')
+@section('title','Novo produto')
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -56,6 +56,15 @@
                 <option value="">Selecione...</option>
                 @foreach($types as $type)
                     <option value="{{$type->id}}">{{$type->description}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_supplier">Fornecedor</label>
+            <select name="id_supplier" class="form-control" id="id_supplier">
+                <option value="">Selecione...</option>
+                @foreach($suppliers as $supplier)
+                    <option value="{{$supplier->id}}">{{$supplier->company_name}} ({{ $supplier->fantasy_name }})</option>
                 @endforeach
             </select>
         </div>

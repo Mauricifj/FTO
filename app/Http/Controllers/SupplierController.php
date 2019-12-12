@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\Contact;
 use App\District;
 use App\Http\Requests\SupplierRequest;
 use App\Refference;
@@ -36,9 +37,21 @@ class SupplierController extends Controller
     public function store(SupplierRequest $request)
     {
         $request['id_user'] = auth()->user()->getAuthIdentifier();
-        Supplier::create($request->all());
+        $supplier = Supplier::create($request->all());
+
+        if ($supplier != null)
+            $request->session()->flash('message', "{$supplier->company_name} adicionado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível adicionar.");
 
         return redirect('supplier');
+    }
+
+    public function show(Supplier $supplier)
+    {
+        $user = User::find(auth()->user()->getAuthIdentifier());
+
+        return view ('supplier.show', compact('supplier', 'user'));
     }
 
     public function edit(Supplier $supplier)
@@ -52,8 +65,12 @@ class SupplierController extends Controller
 
     public function update(SupplierRequest $request, Supplier $supplier)
     {
-        $supplier->update($request->all());
-        return redirect('supplier'); 
+        if ($supplier->update($request->all()))
+            $request->session()->flash('message', "{$supplier->company_name} alterado(a) com sucesso.");
+        else
+            $request->session()->flash('error', "Não foi possível alterar.");
+
+        return redirect('supplier');
     }
 
     public function destroy(Request $request, Supplier $supplier)

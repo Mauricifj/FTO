@@ -14,6 +14,7 @@ class CityController extends Controller
     public function index(Request $request)
     {
         $cities = City::all();
+
         $user = User::find(auth()->user()->getAuthIdentifier());
 
         $message = $request->session()->get('message');
@@ -24,8 +25,8 @@ class CityController extends Controller
 
     public function create()
     {
-        $refferences = Refference::all()->where('type', 'state');
-        return view ('city.create', compact('refferences'));
+        $states = Refference::all()->where('type', 'state');
+        return view ('city.create', compact('states'));
     }
 
     public function store(CityRequest $request)

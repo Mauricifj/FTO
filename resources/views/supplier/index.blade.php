@@ -24,18 +24,21 @@
                     <span>{{ $supplier->company_name }} ({{ $supplier->fantasy_name }})</span>
                     @if ($user->isAdmin() || $user->isManager())
                         <span class="d-flex">
-                    <a href="/supplier/{{ $supplier->id }}/edit" class="btn btn-outline-warning btn-sm mr-1">
-                        Editar <i class="fas fa-edit"></i>
-                    </a>
-                    <form method="post" action="/supplier/{{ $supplier->id }}"
-                          onsubmit="return confirm('Tem certeza que deseja excluir {{ addslashes($supplier->company_name) }}?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-outline-danger btn-sm">
-                            Excluir <i class="far fa-trash-alt"></i>
-                        </button>
-                    </form>
-                </span>
+                            <a href="/supplier/{{ $supplier->id }}" class="btn btn-outline-info btn-sm mr-1">
+                                Ver mais <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="/supplier/{{ $supplier->id }}/edit" class="btn btn-outline-warning btn-sm mr-1">
+                                Editar <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="/supplier/{{ $supplier->id }}"
+                                  onsubmit="return confirm('Tem certeza que deseja excluir {{ addslashes($supplier->company_name) }}?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-outline-danger btn-sm">
+                                    Excluir <i class="far fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </span>
                     @endif
                 </li>
             @endforeach
